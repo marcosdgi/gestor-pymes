@@ -4,6 +4,7 @@ from api.serializers.OrigenSerializer import OrigenSerializer
 from api.models.Origen import Origen
 from rest_framework import status
 
+
 class OrigenApiView(APIView):
 
     def get(self, request, pk=None):
@@ -25,9 +26,11 @@ class OrigenApiView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+            )
 
-    def patch(self, request, pk = None):
+    def patch(self, request, pk=None):
         if pk is not None:
             obj = Origen.objects.get(id=pk)
             serializer = OrigenSerializer(obj, data=request.data)
@@ -35,9 +38,11 @@ class OrigenApiView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, id = None):
+                return Response(
+                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                )
+
+    def delete(self, request, id=None):
         if id is not None:
             obj = Origen.objects.get(id=id)
             if obj:
@@ -45,5 +50,3 @@ class OrigenApiView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-
-    

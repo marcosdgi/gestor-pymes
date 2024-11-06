@@ -1,8 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.serializers.ActividadPrincipalCNAESerializer import ActividadPrincipalCNAESerializer
+from api.serializers.ActividadPrincipalCNAESerializer import (
+    ActividadPrincipalCNAESerializer,
+)
 from api.models.ActividadPrincipalCNAE import ActividadPrincipalCNAE
 from rest_framework import status
+
 
 class ActividadPrincipalCNAEApiView(APIView):
 
@@ -25,9 +28,11 @@ class ActividadPrincipalCNAEApiView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+            )
 
-    def patch(self, request, pk = None):
+    def patch(self, request, pk=None):
         if pk is not None:
             obj = ActividadPrincipalCNAE.objects.get(id=pk)
             serializer = ActividadPrincipalCNAESerializer(obj, data=request.data)
@@ -35,9 +40,11 @@ class ActividadPrincipalCNAEApiView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, pk = None):
+                return Response(
+                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                )
+
+    def delete(self, request, pk=None):
         if pk is not None:
             obj = ActividadPrincipalCNAE.objects.get(id=pk)
             if obj:
@@ -45,5 +52,3 @@ class ActividadPrincipalCNAEApiView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-
-    

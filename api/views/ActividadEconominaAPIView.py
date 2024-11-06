@@ -4,17 +4,19 @@ from api.serializers.ActividadEconomicaSerializer import ActividadEconomicaSeria
 from api.models.ActividadesEconomicas import ActividadEconomica
 from rest_framework import status
 from api.filters.ActividadEconomicaFilter import ActividadEconomicaFilter
+
+
 class ActividadEconominaApiView(APIView):
 
     def get(self, request, pk=None, code=None):
-        if pk  :
+        if pk:
             try:
                 objs = ActividadEconomica.objects.get(id=pk)
                 serializer = ActividadEconomicaSerializer(objs, many=False)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except ActividadEconomica.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-        
+
         elif code:
             try:
                 objs = ActividadEconomica.objects.filter(codigo=code)
@@ -39,7 +41,7 @@ class ActividadEconominaApiView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk = None):
+    def patch(self, request, pk=None):
         if pk is not None:
             obj = ActividadEconomica.objects.get(id=pk)
             serializer = ActividadEconomicaSerializer(obj, data=request.data)
@@ -47,9 +49,11 @@ class ActividadEconominaApiView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
-                return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, pk = None):
+                return Response(
+                    serializer.error_messages, status=status.HTTP_400_BAD_REQUEST
+                )
+
+    def delete(self, request, pk=None):
         if pk is not None:
             obj = ActividadEconomica.objects.get(id=pk)
             if obj:
@@ -57,4 +61,3 @@ class ActividadEconominaApiView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-

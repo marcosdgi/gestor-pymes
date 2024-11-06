@@ -1,9 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.models.ActorEconomico import ActorEconomico
-from api.serializers.SolicitanteSerializer import SolicitanteCreationSerializer, SolicitanteSerializer
+from api.serializers.SolicitanteSerializer import (
+    SolicitanteCreationSerializer,
+    SolicitanteSerializer,
+)
 from api.models.Solicitante import Solicitante
 from rest_framework import status
+
 
 class SolicitanteApiView(APIView):
 
@@ -28,7 +32,7 @@ class SolicitanteApiView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk = None):
+    def patch(self, request, pk=None):
         if pk is not None:
             obj = Solicitante.objects.get(id=pk)
             serializer = SolicitanteCreationSerializer(obj, data=request.data)
@@ -37,7 +41,7 @@ class SolicitanteApiView(APIView):
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def delete(self, request, pk=None):
         if pk is not None:
             try:
@@ -48,5 +52,3 @@ class SolicitanteApiView(APIView):
             except Solicitante.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    

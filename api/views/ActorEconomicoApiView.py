@@ -1,17 +1,23 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.models.ActividadesEconomicas import ActividadEconomica
-from api.serializers.ActorEconomicoSerializer import ActorEconomicoCreationSerializer, ActorEconomicoSerializer
+from api.serializers.ActorEconomicoSerializer import (
+    ActorEconomicoCreationSerializer,
+    ActorEconomicoSerializer,
+)
 from api.models.ActorEconomico import ActorEconomico
 from rest_framework import status
 from api.filters.ActorEconomicoFilter import ActorEconomicoFilter
 from rest_framework.pagination import PageNumberPagination
+
+
 class ActorEconomicoPagination(PageNumberPagination):
     page_size = 10
 
+
 class ActorEconomicoApiView(APIView):
     pagination_class = ActorEconomicoPagination
-    
+
     def get(self, request, pk=None):
         if pk is not None:
             try:
@@ -46,7 +52,7 @@ class ActorEconomicoApiView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk = None):
+    def patch(self, request, pk=None):
         if pk is not None:
             actor = ActorEconomico.objects.get(id=pk)
             serializer = ActorEconomicoCreationSerializer(actor, data=request.data)
@@ -55,8 +61,8 @@ class ActorEconomicoApiView(APIView):
                 return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, pk = None):
+
+    def delete(self, request, pk=None):
         if pk is not None:
             actor = ActorEconomico.objects.get(id=pk)
             if actor:
@@ -64,4 +70,3 @@ class ActorEconomicoApiView(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-

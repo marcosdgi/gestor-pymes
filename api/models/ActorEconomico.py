@@ -44,7 +44,7 @@ class ActorEconomico(models.Model):
     desistimiento_con_carta_de_socios = models.BooleanField(default=False)
     is_disuelta = models.BooleanField(default=False)
     is_inactiva = models.BooleanField(default=False)
-    
+    created_at = models.DateField(auto_now_add=True)
     class Meta:
         verbose_name = "Actor Economico"
         verbose_name_plural = "Actores Economicos"
